@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Sound from 'react-native-sound';
 import HapticFeedback from 'react-native-haptic-feedback';
 
@@ -31,7 +31,7 @@ const sounds = soundFiles.map(file => {
 });
 
 const DrumPadKit = () => {
-  const [activePad, setActivePad] = useState<number | null>(null);
+  const [activePads, setActivePads] = useState<number[]>([]);
 
   const playSound = (index: number) => {
     const sound = sounds[index];
@@ -43,13 +43,13 @@ const DrumPadKit = () => {
   };
 
   const handlePressIn = (index: number) => {
-    setActivePad(index);
+    setActivePads(prev => [...prev, index]);
     HapticFeedback.trigger('impactLight');
     playSound(index);
   };
 
-  const handlePressOut = () => {
-    setActivePad(null);
+  const handlePressOut = (index: number) => {
+    setActivePads(prev => prev.filter(padIndex => padIndex !== index));
   };
 
   return (
@@ -57,15 +57,15 @@ const DrumPadKit = () => {
       <Text style={styles.title}>Drum Pad Kit</Text>
       <View style={styles.grid}>
         {soundFiles.map((file, index) => (
-          <TouchableOpacity
+          <TouchableWithoutFeedback
             key={index}
-            style={[styles.pad, activePad === index && styles.padActive]}
             onPressIn={() => handlePressIn(index)}
-            onPressOut={handlePressOut}
-            activeOpacity={0.7}
+            onPressOut={() => handlePressOut(index)}
           >
-            <Text style={styles.padText}>{file.split('.')[0]}</Text>
-          </TouchableOpacity>
+            <View style={[styles.pad, activePads.includes(index) && styles.padActive]}>
+              <Text style={styles.padText}>{file.split('.')[0]}</Text>
+            </View>
+          </TouchableWithoutFeedback>
         ))}
       </View>
     </View>
