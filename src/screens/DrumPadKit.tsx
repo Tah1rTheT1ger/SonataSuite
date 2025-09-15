@@ -54,6 +54,7 @@ const DrumPadKit = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Drum Pad Kit</Text>
       <View style={styles.grid}>
         {soundFiles.map((file, index) => (
           <TouchableOpacity
@@ -61,7 +62,7 @@ const DrumPadKit = () => {
             style={[styles.pad, activePad === index && styles.padActive]}
             onPressIn={() => handlePressIn(index)}
             onPressOut={handlePressOut}
-            activeOpacity={0.9}
+            activeOpacity={0.7}
           >
             <Text style={styles.padText}>{file.split('.')[0]}</Text>
           </TouchableOpacity>
@@ -76,34 +77,55 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#0a0a1a', // Very dark background
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#e0e0e0',
+    marginBottom: 30,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   grid: {
-    width: '90%',
+    width: '95%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    padding: 10,
   },
   pad: {
     width: '30%',
     aspectRatio: 1,
-    backgroundColor: '#34495e',
+    backgroundColor: '#1c1c3a', // Dark blue/purple for pads
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    marginVertical: 10,
+    borderRadius: 15,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
+    elevation: 8,
     borderWidth: 2,
-    borderColor: '#2c3e50',
+    borderColor: '#3a3a5a',
   },
   padActive: {
-    backgroundColor: '#e74c3c',
-    borderColor: '#c0392b',
+    backgroundColor: '#8a2be2', // Vibrant purple when active
+    borderColor: '#6a0dad', // Darker purple border
+    shadowOpacity: 0.9,
+    shadowRadius: 12,
+    elevation: 12,
   },
   padText: {
-    color: '#ecf0f1',
-    fontSize: 16,
+    color: '#e0e0e0',
+    fontSize: 18,
     fontWeight: 'bold',
     textTransform: 'capitalize',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
 
