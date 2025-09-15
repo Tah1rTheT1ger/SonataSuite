@@ -2,7 +2,7 @@
 
 Welcome to Sonata Suite, my first journey into the world of React Native! This application is a multi-instrument simulation app that allows you to play a variety of virtual instruments right from your device.
 
-![](https://github.com/Tah1rTheT1ger/SonataSuite/SonataV1.gif)
+![](SonataV1.gif)
 
 ## 🚀 About This Project
 
