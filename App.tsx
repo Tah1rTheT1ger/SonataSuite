@@ -1,45 +1,33 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import InstrumentHub from './src/screens/InstrumentHub';
+import GrandPiano from './src/screens/GrandPiano';
+import DrumPadKit from './src/screens/DrumPadKit';
+import AcousticGuitar from './src/screens/AcousticGuitar';
+import ConcertViolin from './src/screens/ConcertViolin';
+import PanFlute from './src/screens/PanFlute';
+
+const Stack = createNativeStackNavigator();
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="InstrumentHub">
+        <Stack.Screen name="InstrumentHub" component={InstrumentHub} options={{ title: 'Sonata Suite' }} />
+        <Stack.Screen name="GrandPiano" component={GrandPiano} options={{ title: 'Grand Piano 🎹' }} />
+        <Stack.Screen name="DrumPadKit" component={DrumPadKit} options={{ title: 'Drum Pad Kit 🥁' }} />
+        <Stack.Screen name="AcousticGuitar" component={AcousticGuitar} options={{ title: 'Acoustic Guitar 🎸' }} />
+        <Stack.Screen name="ConcertViolin" component={ConcertViolin} options={{ title: 'Concert Violin 🎻' }} />
+        <Stack.Screen name="PanFlute" component={PanFlute} options={{ title: 'Pan Flute 🎶' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
