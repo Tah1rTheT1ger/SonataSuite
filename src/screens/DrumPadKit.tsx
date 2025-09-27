@@ -1,26 +1,33 @@
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Sound from 'react-native-sound';
 import HapticFeedback from 'react-native-haptic-feedback';
 
 Sound.setCategory('Playback');
 
+// An array of sound filenames
 const soundFiles = [
-  'kick.mp3',
-  'snare.mp3',
-  'hihat.mp3',
-  'tom1.mp3',
-  'tom2.mp3',
-  'tom3.mp3',
-  'crash.mp3',
-  'ride.mp3',
-  'clap.mp3',
-  'cowbell.mp3',
-  'rim.mp3',
-  'shaker.mp3',
+  'drumpadkit_kick.mp3',
+  'drumpadkit_snare.mp3',
+  'drumpadkit_hihat.mp3',
+  'drumpadkit_tom1.mp3',
+  'drumpadkit_tom2.mp3',
+  'drumpadkit_tom3.mp3',
+  'drumpadkit_crash.mp3',
+  'drumpadkit_ride.mp3',
+  'drumpadkit_clap.mp3',
+  'drumpadkit_cowbell.mp3',
+  'drumpadkit_rim.mp3',
+  'drumpadkit_shaker.mp3',
 ];
 
+const soundNames = [
+  'Kick', 'Snare', 'Hi-Hat', 'Tom 1', 'Tom 2', 'Tom 3',
+  'Crash', 'Ride', 'Clap', 'Cowbell', 'Rim', 'Shaker'
+];
+
+// Pre-load the sounds
 const sounds = soundFiles.map(file => {
   return new Sound(file, Sound.MAIN_BUNDLE, (error) => {
     if (error) {
@@ -29,6 +36,11 @@ const sounds = soundFiles.map(file => {
     }
   });
 });
+
+const numColumns = 3;
+const { width: screenWidth } = Dimensions.get('window');
+const gridWidth = screenWidth * 0.98;
+const padWidth = gridWidth / numColumns - 10;
 
 const DrumPadKit = () => {
   const [activePads, setActivePads] = useState<number[]>([]);
@@ -56,16 +68,16 @@ const DrumPadKit = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Drum Pad Kit</Text>
       <View style={styles.grid}>
-        {soundFiles.map((file, index) => (
-          <TouchableWithoutFeedback
+        {soundNames.map((name, index) => (
+          <TouchableOpacity
             key={index}
+            style={[styles.pad, activePads.includes(index) && styles.padActive]}
             onPressIn={() => handlePressIn(index)}
             onPressOut={() => handlePressOut(index)}
+            activeOpacity={0.9} // Immediate feedback
           >
-            <View style={[styles.pad, activePads.includes(index) && styles.padActive]}>
-              <Text style={styles.padText}>{file.split('.')[0]}</Text>
-            </View>
-          </TouchableWithoutFeedback>
+            <Text style={styles.padText}>{name}</Text>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
@@ -77,55 +89,55 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0a0a1a', // Very dark background
+    backgroundColor: '#0a0a1a',
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#e0e0e0',
-    marginBottom: 30,
+    marginBottom: 20,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
   },
   grid: {
-    width: '95%',
+    width: '98%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-  pad: {
-    width: '30%',
-    aspectRatio: 1,
-    backgroundColor: '#1c1c3a', // Dark blue/purple for pads
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
-    marginVertical: 8,
+  },
+  pad: {
+    width: padWidth,
+    aspectRatio: 1,
+    backgroundColor: '#1c1c3a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    margin: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.6,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
+    elevation: 10,
     borderWidth: 2,
     borderColor: '#3a3a5a',
   },
   padActive: {
-    backgroundColor: '#8a2be2', // Vibrant purple when active
-    borderColor: '#6a0dad', // Darker purple border
-    shadowOpacity: 0.9,
-    shadowRadius: 12,
-    elevation: 12,
+    backgroundColor: '#8a2be2',
+    borderColor: '#a45eff',
+    transform: [{ scale: 1.05 }],
+    shadowColor: '#a45eff',
+    shadowOpacity: 1,
+    shadowRadius: 15,
+    elevation: 20,
   },
   padText: {
     color: '#e0e0e0',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     textTransform: 'capitalize',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+    textAlign: 'center',
   },
 });
 
